@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 REPO_URL="https://github.com/mohammadamin382/BoxcLang.git"
@@ -37,32 +36,32 @@ install_dependencies() {
     case $os in
         ubuntu|debian|pop)
             sudo apt-get update
-            sudo apt-get install -y cmake g++ llvm-17 llvm-17-dev make libncurses-dev zlib1g-dev || \
-            sudo apt-get install -y cmake g++ llvm-16 llvm-16-dev make libncurses-dev zlib1g-dev || \
-            sudo apt-get install -y cmake g++ llvm-15 llvm-15-dev make libncurses-dev zlib1g-dev || \
-            sudo apt-get install -y cmake g++ llvm-14 llvm-14-dev make libncurses-dev zlib1g-dev
+            sudo apt-get install -y cmake g++ llvm-17 llvm-17-dev make libncurses-dev zlib1g-dev libzstd-dev || \
+            sudo apt-get install -y cmake g++ llvm-16 llvm-16-dev make libncurses-dev zlib1g-dev libzstd-dev || \
+            sudo apt-get install -y cmake g++ llvm-15 llvm-15-dev make libncurses-dev zlib1g-dev libzstd-dev || \
+            sudo apt-get install -y cmake g++ llvm-14 llvm-14-dev make libncurses-dev zlib1g-dev libzstd-dev
             ;;
         fedora|rhel|centos)
-            sudo dnf install -y cmake gcc-c++ llvm-devel make ncurses-devel zlib-devel || \
-            sudo yum install -y cmake gcc-c++ llvm-devel make ncurses-devel zlib-devel
+            sudo dnf install -y cmake gcc-c++ llvm-devel make ncurses-devel zlib-devel libzstd-devel || \
+            sudo yum install -y cmake gcc-c++ llvm-devel make ncurses-devel zlib-devel libzstd-devel
             ;;
         arch|manjaro)
-            sudo pacman -Sy --noconfirm cmake gcc llvm make ncurses zlib
+            sudo pacman -Sy --noconfirm cmake gcc llvm make ncurses zlib zstd
             ;;
         opensuse*)
-            sudo zypper install -y cmake gcc-c++ llvm-devel make ncurses-devel zlib-devel
+            sudo zypper install -y cmake gcc-c++ llvm-devel make ncurses-devel zlib-devel libzstd-devel
             ;;
         macos)
             if ! command -v brew &> /dev/null; then
                 echo "Homebrew not found. Installing Homebrew..."
                 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             fi
-            brew install cmake llvm@17 make ncurses zlib || \
-            brew install cmake llvm@16 make ncurses zlib || \
-            brew install cmake llvm make ncurses zlib
+            brew install cmake llvm@17 make ncurses zlib zstd || \
+            brew install cmake llvm@16 make ncurses zlib zstd || \
+            brew install cmake llvm make ncurses zlib zstd
             ;;
         *)
-            echo "Unknown OS. Please install manually: cmake, g++/clang++, llvm (17+), make, ncurses, zlib"
+            echo "Unknown OS. Please install manually: cmake, g++/clang++, llvm (17+), make, ncurses, zlib, zstd"
             exit 1
             ;;
     esac
