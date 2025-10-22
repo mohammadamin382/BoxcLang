@@ -1,0 +1,7 @@
+fun printGreeting() {
+    print "Hello from Box Language!";
+}
+
+fun printFarewell() {
+    print "Goodbye, Box!";
+}

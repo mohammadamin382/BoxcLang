@@ -1,0 +1,5 @@
+import "circular_b.box";
+
+fun funcA() {
+    return 1;
+}

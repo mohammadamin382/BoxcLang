@@ -1,0 +1,9 @@
+import "math_utils.box";
+import "string_utils.box";
+
+var result = add(100, 50);
+print result;
+print multiply(7, 8);
+
+print "Hello from Box!";
+print "Multiple imports working!";

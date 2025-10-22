@@ -1,0 +1,50 @@
+
+# Build artifacts
+build/
+*.o
+*.a
+*.so
+*.dylib
+*.ll
+*.s
+*.bc
+
+# Executables
+boxc
+*.out
+main
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Test outputs
+Testing/
+CTestTestfile.cmake
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Compiled test programs
+tests/**/*.out
+tests/**/main
+tests/**/*.ll
+tests/**/*.s
+
+# Temporary files
+*.tmp
+*.log
+.ccls-cache/
+
+# OS
+.DS_Store
+Thumbs.db

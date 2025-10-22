@@ -1,0 +1,15 @@
+import "math_utils.box";
+
+fun power(base, exp) {
+    var result = 1;
+    var i = 0;
+    while (i < exp) {
+        result = multiply(result, base);
+        i = i + 1;
+    }
+    return result;
+}
+
+fun cube(x) {
+    return power(x, 3);
+}

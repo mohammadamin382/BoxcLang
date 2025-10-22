@@ -1,0 +1,3 @@
+import "circular_a.box";
+
+print funcA();
