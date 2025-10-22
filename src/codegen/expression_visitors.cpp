@@ -230,6 +230,10 @@ BoxValue CodeGenerator::visit_binary(Binary* expr) {
         } else if (left.box_type == BoxType::BOOL && right.box_type == BoxType::BOOL) {
             llvm::Value* result = builder->CreateICmpEQ(left.ir_value, right.ir_value, "eq");
             return BoxValue(result, BoxType::BOOL);
+        } else if (left.box_type == BoxType::STRING && right.box_type == BoxType::STRING) {
+            llvm::Value* cmp_result = string_compare(left.ir_value, right.ir_value);
+            llvm::Value* result = builder->CreateICmpEQ(cmp_result, llvm::ConstantInt::get(i32_type, 0), "streq");
+            return BoxValue(result, BoxType::BOOL);
         } else {
             std::string hint = "The '==' operator requires both operands to be the same type.\n";
             hint += "       Left: " + left.box_type + ", Right: " + right.box_type;
@@ -242,6 +246,10 @@ BoxValue CodeGenerator::visit_binary(Binary* expr) {
             return BoxValue(result, BoxType::BOOL);
         } else if (left.box_type == BoxType::BOOL && right.box_type == BoxType::BOOL) {
             llvm::Value* result = builder->CreateICmpNE(left.ir_value, right.ir_value, "ne");
+            return BoxValue(result, BoxType::BOOL);
+        } else if (left.box_type == BoxType::STRING && right.box_type == BoxType::STRING) {
+            llvm::Value* cmp_result = string_compare(left.ir_value, right.ir_value);
+            llvm::Value* result = builder->CreateICmpNE(cmp_result, llvm::ConstantInt::get(i32_type, 0), "strne");
             return BoxValue(result, BoxType::BOOL);
         } else {
             std::string hint = "The '!=' operator requires both operands to be the same type.\n";
