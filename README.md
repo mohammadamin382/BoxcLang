@@ -161,7 +161,7 @@ Box/
 ## Known Limitations
 
 - No garbage collection
-- Limited standard library
+- No standard library
 - No module system beyond basic imports
 - No generics or templates
 - No multithreading support
