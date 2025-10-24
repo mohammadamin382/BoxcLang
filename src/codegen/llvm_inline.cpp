@@ -411,6 +411,21 @@ llvm::Value* CodeGenerator::resolve_llvm_value(const std::string& value_str, con
         throw CodeGenError("Undefined variable in llvm_inline: " + trimmed);
     }
 
+    // Handle numeric constants
+    if (is_number(trimmed)) {
+        if (type_str == "i32") {
+            return llvm::ConstantInt::get(i32_type, std::stoi(trimmed));
+        } else if (type_str == "i64") {
+            return llvm::ConstantInt::get(i64_type, std::stoll(trimmed));
+        } else if (type_str == "i1") {
+            return llvm::ConstantInt::get(i1_type, std::stoi(trimmed));
+        } else if (type_str == "double") {
+            return llvm::ConstantFP::get(double_type, std::stod(trimmed));
+        }
+    }
+
+    throw CodeGenError("Cannot resolve value in llvm_inline: " + trimmed);
+
     if (type_str == "i1") {
         std::string lower = trimmed;
         std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
