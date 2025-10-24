@@ -88,7 +88,8 @@ void CodeGenerator::visit_switch_stmt(SwitchStmt* stmt) {
 
 llvm::Value* CodeGenerator::string_compare(llvm::Value* str1, llvm::Value* str2) {
     llvm::Value* result = builder->CreateCall(strcmp_func, {str1, str2});
-    return builder->CreateICmpEQ(result, llvm::ConstantInt::get(i32_type, 0));
+    llvm::Value* zero = llvm::ConstantInt::get(result->getType(), 0);
+    return builder->CreateICmpEQ(result, zero);
 }
 
 }
