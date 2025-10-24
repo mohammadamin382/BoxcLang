@@ -39,7 +39,7 @@ Box compiler (`boxc`) is an educational compiler project featuring:
 ### Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mohammadamin382/master/BoxcLang/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mohammadamin382/BoxcLang/master/setup.sh | bash
 ```
 
 ```bash
