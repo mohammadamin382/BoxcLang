@@ -228,11 +228,16 @@ BoxValue CodeGenerator::visit_binary(Binary* expr) {
             llvm::Value* result = builder->CreateFCmpOEQ(left.ir_value, right.ir_value, "eq");
             return BoxValue(result, BoxType::BOOL);
         } else if (left.box_type == BoxType::BOOL && right.box_type == BoxType::BOOL) {
-            llvm::Value* result = builder->CreateICmpEQ(left.ir_value, right.ir_value, "eq");
+            // Ensure both boolean values have the same type
+            llvm::Value* left_bool = left.ir_value;
+            llvm::Value* right_bool = right.ir_value;
+            if (left_bool->getType() != right_bool->getType()) {
+                right_bool = builder->CreateIntCast(right_bool, left_bool->getType(), false);
+            }
+            llvm::Value* result = builder->CreateICmpEQ(left_bool, right_bool, "eq");
             return BoxValue(result, BoxType::BOOL);
         } else if (left.box_type == BoxType::STRING && right.box_type == BoxType::STRING) {
-            llvm::Value* cmp_result = string_compare(left.ir_value, right.ir_value);
-            llvm::Value* result = builder->CreateICmpEQ(cmp_result, llvm::ConstantInt::get(i32_type, 0), "streq");
+            llvm::Value* result = string_compare(left.ir_value, right.ir_value);
             return BoxValue(result, BoxType::BOOL);
         } else {
             std::string hint = "The '==' operator requires both operands to be the same type.\n";
@@ -245,11 +250,17 @@ BoxValue CodeGenerator::visit_binary(Binary* expr) {
             llvm::Value* result = builder->CreateFCmpONE(left.ir_value, right.ir_value, "ne");
             return BoxValue(result, BoxType::BOOL);
         } else if (left.box_type == BoxType::BOOL && right.box_type == BoxType::BOOL) {
-            llvm::Value* result = builder->CreateICmpNE(left.ir_value, right.ir_value, "ne");
+            // Ensure both boolean values have the same type
+            llvm::Value* left_bool = left.ir_value;
+            llvm::Value* right_bool = right.ir_value;
+            if (left_bool->getType() != right_bool->getType()) {
+                right_bool = builder->CreateIntCast(right_bool, left_bool->getType(), false);
+            }
+            llvm::Value* result = builder->CreateICmpNE(left_bool, right_bool, "ne");
             return BoxValue(result, BoxType::BOOL);
         } else if (left.box_type == BoxType::STRING && right.box_type == BoxType::STRING) {
             llvm::Value* cmp_result = string_compare(left.ir_value, right.ir_value);
-            llvm::Value* result = builder->CreateICmpNE(cmp_result, llvm::ConstantInt::get(i32_type, 0), "strne");
+            llvm::Value* result = builder->CreateNot(cmp_result, "ne");
             return BoxValue(result, BoxType::BOOL);
         } else {
             std::string hint = "The '!=' operator requires both operands to be the same type.\n";
